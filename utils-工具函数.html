@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>utils-工具函数</title>
+</head>
+
+<body>
+
+  <script>
+    // flat 扁平化数组
+    function flat(arr) {
+      const isDeep = arr.some(item => item instanceof Array)
+      if (!isDeep) return arr
+      const res = Array.prototype.concat.apply([], arr)
+      return flat(res)
+    }
+  </script>
+
+</body>
+
+</html>
