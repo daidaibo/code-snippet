@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise-高阶应用</title>
+</head>
+
+<body>
+
+  <script>
+    const promiseArrGenerator = (num) => {
+      return new Array(num).fill().map((item, index) => (
+        () => new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(index)
+          }, Math.random() * 1000)
+        })
+      ))
+    }
+
+    const proArr = promiseArrGenerator(50)
+
+    const promiseChain = (proArr) => {
+      const first = proArr.shift()
+      proArr.reduce((proChain, pro) => proChain.then(res => {
+        console.log(res)
+        return pro()
+      }), first()).then(res => console.log(res))
+    }
+    promiseChain(proArr)
+
+    // 并发
+    const promisePipe = (proArr, max) => {
+      if (max > proArr.length) {
+        return Promise.all(proArr.map(fn => fn())).then((resArr => console.log(resArr)))
+      }
+
+      let _arr = [...proArr]
+      for (let i = 0; i < max; i++) {
+        let fn = _arr.shift()
+        run(fn)
+      }
+
+      function run(fn) {
+        fn().then(res => {
+          console.log(res)
+          if (_arr.length) run(_arr.shift())
+        })
+      }
+    }
+    // promisePipe(proArr, 5)
+
+    const abort = function (promise) {
+      let _reject
+      const obj = Promise.race([promise, new Promise((resolve, reject) => {
+        _reject = reject
+      })])
+
+      obj.abort = function () {
+        _reject('abort')
+      }
+
+      return obj
+    }
+
+  </script>
+
+</body>
+
+</html>

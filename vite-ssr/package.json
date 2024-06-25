@@ -1,0 +1,31 @@
+{
+  "name": "vite-ssr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:ssr": "cross-env NODE_ENV=development node server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --outDir dist/client --ssrManifest",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
+    "prod:ssr": "cross-env NODE_ENV=production node server"
+  },
+  "dependencies": {
+    "@vitejs/test-example-external-component": "file:example-external-component",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.3",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "workspace:*",
+    "@vitejs/plugin-vue-jsx": "workspace:*",
+    "@vitejs/test-dep-import-type": "link:dep-import-type",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
+    "express": "^4.18.2",
+    "serve-static": "^1.15.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

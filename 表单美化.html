@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>表单美化</title>
+  <style>
+    input {
+      outline: none;
+      border: none;
+      vertical-align: top;
+    }
+
+    input[type="text"] {
+      width: 100px;
+      border-bottom: 2px solid #979c98;
+      height: 42px;
+      line-height: 42px;
+      color: #777783;
+      padding-left: 20px;
+      background: transparent;
+    }
+
+    input[type="text"]:focus {
+      border-bottom-color: #552f2c;
+      color: #000500;
+    }
+
+    input[type="text"]::-webkit-input-placeholder {
+      transform-origin: top left;
+      transition: 0.5s;
+    }
+
+    input[type="text"]:focus::-webkit-input-placeholder {
+      transform: scale(0.8) translateY(-15px);
+    }
+
+    input[type="checkbox"]+label {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 1px solid #000002;
+      border-radius: 3px;
+      margin-right: 5px;
+      margin-top: 3px;
+      position: relative;
+    }
+
+    input[type="checkbox"]:checked+label::before {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 6px;
+      background: #090708;
+      transform: rotate(-30deg);
+      position: absolute;
+      top: 8px;
+      left: 4px;
+    }
+
+    input[type="checkbox"]:checked+label::after {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 12px;
+      background: #090708;
+      transform: rotate(40deg);
+      position: absolute;
+      top: 3px;
+      left: 9px;
+    }
+
+    input[type="radio"]+label::before {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #bcbcbc;
+      border-radius: 50%;
+      padding: 3px;
+      margin-top: 9px;
+      margin-right: 9px;
+    }
+
+    input[type="radio"]:checked+label::before {
+      border-color: #e7788d;
+      background: #e7788d;
+      background-clip: content-box;
+    }
+  </style>
+</head>
+
+<body>
+
+  <input type="text" placeholder="请输入..." />
+
+  <input type="checkbox" id="checkbox" />
+  <label for="checkbox"></label>粤菜
+
+  <input id="girl" type="radio" name="gender" />
+  <label for="girl">👧</label>
+  <input id="boy" type="radio" name="gender" />
+  <label for="boy">👦</label>
+
+</body>
+
+</html>

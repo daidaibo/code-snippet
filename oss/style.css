@@ -1,0 +1,171 @@
+[v-cloak] {
+    display: none !important;
+}
+
+body {
+    margin: 0;
+    padding-left: 50px;
+    margin-top: 20px;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#app {}
+
+.tips {
+    line-height: 30px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    margin-bottom: 40px;
+}
+
+.select_btn,
+.upload_btn,
+.complete_btn {
+    display: inline-block;
+    vertical-align: middle;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.select_btn {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #797979;
+}
+
+.select_btn span {
+    font-size: 12px;
+}
+
+.select_btn input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.upload_btn {
+    color: #aaaaaa;
+    background-color: #f2f2f2;
+    margin: 0 20px;
+}
+
+.upload_btn.active {
+    color: #fff;
+    background-color: #3288f6;
+}
+
+.complete_btn {
+    color: #fff;
+    background-color: #36b600;
+}
+
+.thead {
+    background: rgb(242 242 242);
+    border-top: 1px solid #d7d7d7;
+}
+
+.list {
+    max-height: 400px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #d7d7d7;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.list::-webkit-scrollbar {
+    display: none;
+}
+
+.thead,
+.list {
+    max-width: 800px;
+    text-align: center;
+    line-height: 40px;
+    border-left: 1px solid #d7d7d7;
+}
+
+.item {
+    display: flex;
+}
+
+.item:last-child .name,
+.item:last-child .size,
+.item:last-child .status {
+    border-bottom: none;
+}
+
+.name,
+.size,
+.status {
+    border-right: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.name {
+    width: 20%;
+}
+
+.size {
+    width: 20%;
+}
+
+.status {
+    width: 60%;
+}
+
+.success {
+    color: #49c265;
+}
+
+.fail {
+    color: #f53c4a;
+}
+
+.pending,
+.waiting {
+    color: #818181;
+}
+
+.process {
+    color: #338cf6;
+}
+
+.retry {
+    border: 1px solid #f53c4a;
+    border-radius: 15px;
+    padding: 2px 8px;
+    margin-left: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    vertical-align: bottom;
+}
+
+.delete {
+    color: #fff;
+    background: #ff5722;
+    border-radius: 2px;
+    padding: 2px 5px;
+    margin-left: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    vertical-align: bottom;
+}
