@@ -1,6 +1,6 @@
 class EventBus {
   private events: {
-    [key: string]: Array<{ fn: Function; isOnce: boolean }>
+    [key: string]: Array<{ fn: Function, isOnce: boolean }>
   }
 
   constructor() {
@@ -38,4 +38,29 @@ class EventBus {
       return !isOnce
     })
   }
+}
+
+const Vue = function () { }
+
+Vue.prototype.$bus = new EventBus()
+
+
+Vue.prototype.$dispatch = function (eventName, data) {
+  let parent = this.$parent
+  while (parent) {
+    parent.$emit(eventName, data)
+    parent = parent.$parent
+  }
+}
+
+Vue.prototype.$boardcast = function (eventName, data) {
+  boardcast.call(this, eventName, data)
+}
+function boardcast(eventName, data) {
+  this.$children.forEach(child => {
+    child.$emit(eventName, data)
+    if (child.$children.length) {
+      boardcast.call(child, eventName, data)
+    }
+  })
 }
