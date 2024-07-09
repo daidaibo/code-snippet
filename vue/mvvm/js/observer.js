@@ -20,7 +20,7 @@ Observer.prototype = {
     var childObj = observe(val);
 
     Object.defineProperty(data, key, {
-      configurable: false,
+      configurable: true,
       enumerable: true,
       get: function () {
         if (Dep.target) {
@@ -71,6 +71,9 @@ Dep.prototype = {
 
   depend: function () {
     Dep.target.addDep(this);
+    // if (!~this.subs.indexOf(Dep.target)) {
+    //   this.addSub(Dep.target);
+    // }
   },
 
   removeSub: function (sub) {
