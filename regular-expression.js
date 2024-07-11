@@ -33,3 +33,9 @@ function thousandFormat(n) {
   n.replace(/(?=(?!\b)(\d{3})+$)/g, ',')
   n.replace(/\d(?=(\d{3})+$)/g, '$&,')
 }
+
+function getUrlParam(name) {
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  let r = window.location.search.substr(1).match(reg)
+  if (r !== null) return decodeURIComponent(r[2])
+}
