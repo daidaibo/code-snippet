@@ -30,9 +30,22 @@
 // (...args) => freight(discount(num(...args)))
 
 // const totalMoney = compose3(num, discount8, freight)(15)
-
 // console.log(totalMoney)
 
+
+/*
+[func1, func2].reduce((p, f) => p.then(f), Promise.resolve())
+等同于
+  Promise.resolve().then(func1).then(func2)
+
+抽象成
+let applyAsync = (acc, val) => acc.then(val)
+let composeAsync = (...funcs) => x => funcs.reduce(applyAsync, Promise.resolve(x))
+
+使用
+let transformData = composeAsync(func1, asyncFunc1, asyncFunc2, func2)
+transformData(data)
+*/
 
 function freight(total, next) {
   next(total + 12)

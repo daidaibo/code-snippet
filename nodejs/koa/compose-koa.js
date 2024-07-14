@@ -2,19 +2,20 @@ async function fn1(next) {
   console.log('fn1')
   await next()
   console.log('End fn1')
+  return 'koa'
 }
 
 async function fn2(next) {
   console.log('fn2')
   await delay()
-  await next()
+  console.log(await next())
   console.log('End fn2')
 }
 
 async function fn3(next) {
   console.log('fn3')
   await next()
-  console.log('End fn3')
+  return 'End fn3'
 }
 
 function delay() {
@@ -40,3 +41,6 @@ function compose(middlewares) {
 }
 
 compose([fn1, fn2, fn3])()
+  .then((r) => {
+    console.log(r)
+  })
