@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>搜索关键词高亮</title>
+  <style>
+    bdi {
+      color: rgb(0, 136, 255);
+    }
+
+    li {
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="text" class="input">
+  <section>
+    <ul class="container"></ul>
+  </section>
+
+  <script>
+    function debounce(fn, delay = 100) {
+      let timer = null
+      return function (...args) {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          fn.apply(this, args)
+        }, delay)
+      }
+    }
+
+    function memorize(fn) {
+      const cache = new Map()
+      return (name) => {
+        if (!name) {
+          container.innerHTML = ''
+        } else if (cache.get(name)) {
+          container.innerHTML = cache.get(name)
+        } else {
+          const res = fn(name).join('')
+          cache.set(name, res)
+          container.innerHTML = res
+        }
+      }
+    }
+
+    function handleInput(value) {
+      const reg = new RegExp(`\(${value}\)`)
+      const search = data.reduce((res, cur) => {
+        if (reg.test(cur)) {
+          const match = RegExp.$1
+          res.push(`<li>${cur.replace(match, '<bdi>$&</bdi>')}</li>`)
+        }
+        return res
+      }, [])
+      return search
+    }
+
+    const data = [
+      '长隆欢乐世界',
+      '长隆野生动物园',
+      '长隆水上乐园',
+      '广州动物园',
+      '广州白云山',
+      '顺德欢乐海岸',
+      '顺德顺峰山',
+      '深圳欢乐海岸',
+    ]
+
+    const container = document.querySelector('.container')
+    const memorizeInput = memorize(handleInput)
+
+    document.querySelector('.input').addEventListener('input', debounce(e => memorizeInput(e.target.value)))
+  </script>
+</body>
+
+</html>

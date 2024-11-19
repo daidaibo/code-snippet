@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise-并发控制</title>
+</head>
+
+<body>
+
+  <script>
+    class LimitPromise {
+      constructor(max) {
+        this._max = max || 6
+        this._count = 0
+        this._taskQueue = []
+        this.instance = null
+      }
+
+      run(caller) {
+        return new Promise((resolve, reject) => {
+          const task = this._createTask(caller, resolve, reject)
+
+          if (this._count >= this._max) {
+            this._taskQueue.push(task)
+          } else {
+            task()
+          }
+        })
+      }
+
+      _createTask(caller, resolve, reject) {
+        return () => {
+          caller().then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          }).finally(() => {
+            this._count--
+            if (this._taskQueue.length) {
+              const task = this._taskQueue.shift()
+              task()
+            }
+          })
+
+          this._count++
+        }
+      }
+
+      static getInstance(max) {
+        if (!this.instance) {
+          this.instance = new LimitPromise(max)
+        }
+        return this.instance
+      }
+    }
+  </script>
+
+</body>
+
+</html>

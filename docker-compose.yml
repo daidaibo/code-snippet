@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    container_name: my-app
+    ports:
+      - '28080:18080'
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/movie
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - REDIS_URL=redis://redis:6379
+
+  db:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: movie
+      MYSQL_USER: daibo
+      MYSQL_PASSWORD: daibo
+    ports:
+      - '23306:3306'
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - '26379:6379'

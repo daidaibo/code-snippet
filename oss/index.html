@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSS in Browser</title>
+  <script src="http://gosspublic.alicdn.com/aliyun-oss-sdk.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
+  <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <!--
+    <input type="hidden" id="regionId" value="" />
+    <input type="hidden" id="accessKey" value="" />
+    <input type="hidden" id="secretKey" value="" />
+    <input type="hidden" id="bucket" value="" />
+  -->
+  <div class="tips">
+    <div>
+      1. 如单集未先创建，上传成功后会自动创建单集
+    </div>
+    <div>
+      2. 视频文件只支持<span style="color: #CC3333">mp4格式</span>文件，且文件以<span style="color: #CC3333">“集数.mp4”</span>命名，如：10.mp4
+    </div>
+    <div>
+      3. 重复上传会替换原来的视频文件，上传成功即替换成功
+    </div>
+    <div>
+      4. 上传过程中请不要关闭上传界面
+    </div>
+  </div>
+  <div id="app">
+    <div class="btn">
+      <div class="select_btn">
+        <span>➕</span> 选择视频
+        <input type="file" accept="video/mp4" name="file" multiple @change="fileChange"
+          @click="e => {e.target.value = '';}" title="">
+      </div>
+      <div :class="['upload_btn', {active: uploadBtnActive}]" @click="handleUpload">批量上传</div>
+      <div class="complete_btn" @click="handleComplete">完成</div>
+    </div>
+
+    <li class="item thead" v-if="renderList.length">
+      <div class="name">文件名</div>
+      <div class="size">大小</div>
+      <div class="status">
+        上传状态:
+        <span class="success">{{successNum}}</span>
+        |
+        <span class="fail">{{failNum}}</span>
+        |
+        <span class="pending">{{pendingNum}}</span>
+        |
+        <span class="total">{{renderList.length}}</span>
+      </div>
+    </li>
+    <ul class="list" v-if="renderList.length" ref="listRef">
+      <li class="item" v-for="(item, index) in renderList" :key="index">
+        <div class="name">{{item.name}}</div>
+        <div class="size">{{item.size}}</div>
+        <div :class="['status', statusCls[item.status]]">
+          {{statusDesc[item.status]}}
+          <span v-if="item.status === statusMap.process && item.running">({{item.progress}})</span>
+          <span class="retry" v-if="item.status === statusMap.fail" @click="handleRetry(item)">重新上传</span>
+          <span class="delete" v-if="item.status === statusMap.waiting" @click="handleDelete(item, index)">删除</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script src="./app.js"></script>
+
+</body>
+
+</html>

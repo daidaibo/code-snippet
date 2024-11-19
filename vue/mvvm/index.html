@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MVVM</title>
+</head>
+
+<body>
+  <div id="mvvm-app">
+    <input type="text" v-model="someStr">
+    <input type="text" v-model="child.someStr">
+    <p v-class="className" class="cls">
+      {{ someStr }}
+      <span v-text="child.someStr" />
+    </p>
+    <p>{{ getSomeStr }}</p>
+    <p v-html="htmlStr"></p>
+    <button v-on:click="changeChild">Change child</button>
+    <button v-on:click="changeChildSomeStr">Change child.someStr</button>
+  </div>
+
+  <script src="./js/watcher.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/mvvm.js"></script>
+  <script>
+    const vm = new MVVM({
+      el: '#mvvm-app',
+      data: {
+        someStr: 'hello',
+        className: 'test',
+        htmlStr: '<span style="color: red;">red</span>',
+        child: {
+          someStr: 'world'
+        }
+      },
+
+      computed: {
+        getSomeStr: function () {
+          return this.someStr + ', ' + this.child.someStr + '.'
+        }
+      },
+
+      methods: {
+        changeChild: function () {
+          this.child = { someStr: 'everyone' }
+        },
+        changeChildSomeStr: function () {
+          this.child.someStr = new Date().getSeconds()
+        }
+      }
+    })
+
+    vm.$watch('child', function () {
+      console.log('watch child')
+    })
+
+    vm.$watch('child.someStr', function (v, o) {
+      console.log('watch child.someStr:', v, o)
+    })
+  </script>
+
+</body>
+
+</html>
