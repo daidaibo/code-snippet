@@ -91,7 +91,7 @@ createApp({
           //   item.status = statusMap.success
           // })
           .then(function (r) {
-            return urllib.request(`${location.origin}/admin/seriesNew/wzCreateVideo.html`, {
+            return urllib.request(`${location.origin}/api`, {
               method: 'POST',
               data: {
                 series_id: new URLSearchParams(location.search).get('series_id'),

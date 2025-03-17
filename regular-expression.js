@@ -43,3 +43,23 @@ function getUrlQuery(name) {
     return ''
   }
 }
+
+function parseUrl(url, isScheme = false) {
+  let regexp = isScheme ? /^(wawotv:\/\/)([^:/?#]*)(\?[^#]*)?$/ :
+    /^(https?:\/\/)?([^:/?#]+)(?::(\d+))?(\/[^?#]*)?(\?[^#]*)?(#.*)?$/
+
+  const match = url.match(regexp) || []
+
+  return isScheme ? {
+    protocol: match[1],
+    path: '/' + match[2],
+    search: match[3]
+  } : {
+    protocol: match[1], // 协议 https://
+    host: match[2], // 主机名 example.com
+    port: match[3], // 端口 8080
+    path: match[4], // 路径 /path/name
+    search: match[5], // ?
+    hash: match[6] // #
+  }
+}

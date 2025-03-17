@@ -76,3 +76,28 @@ function thousandFormat(n) {
 
   return str
 }
+
+function queryParams(obj) {
+  // return new URLSearchParams(obj)
+  let keys = Object.keys(obj)
+  return keys.map(i => {
+    return `${encodeURIComponent(i)}=${encodeURIComponent(obj[i])}`
+  }).join('&')
+}
+
+function parseSearch(search) {
+  // let search = window.location.search
+  // search = decodeURIComponent(search)
+  const query = search.startsWith('?') ? search.slice(1) : search
+  const pairs = query.split('&')
+
+  const params = {}
+  pairs.forEach(pair => {
+    const [key, value] = pair.split('=')
+    if (key) {
+      params[decodeURIComponent(key)] = decodeURIComponent(value || '')
+    }
+  })
+
+  return params
+}
