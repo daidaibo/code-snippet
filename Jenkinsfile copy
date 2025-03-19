@@ -111,7 +111,13 @@ pipeline {
                             tar -zcf app-admin.wawotv.com.tar.gz dist
 EOF
                     """
-                    // tar --warning=no-file-changed -zcf landing.wawotv.com.tar.gz --exclude=.git --ignore-failed-read .
+    /*
+        当前目录下的所有内容，包括隐藏文件和当前目录本身
+            tar --warning=no-file-changed -zcf dist.tar.gz --exclude=.git --ignore-failed-read .
+
+        当前目录下的非隐藏文件和子目录 👍
+            tar -zcf dist.tar.gz *
+    */
                 }
             }
         }
