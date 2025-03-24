@@ -24,6 +24,10 @@
   }
 ]
 
+/*
+  https://aws.amazon.com/cn/blogs/china/several-solutions-to-cloudfront-cross-domain-problem-cors/
+*/
+
 // Cloudfront Function 查看器响应
 function handler(event) {// ForceCORSHeaders
   var origin = event.request.headers.origin || { value: '' }
