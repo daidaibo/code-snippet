@@ -142,23 +142,29 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building branch: ${env.BRANCH_NAME}.."
-                sh '''
-                    NODE_PATH="/home/ubuntu/.nvm/versions/node/v18.20.2/bin"
-                    YARN_PATH="/home/linuxbrew/.linuxbrew/bin"
-                    export PATH="$NODE_PATH:$YARN_PATH:$PATH"
+                script {
+                    try {
+                        sh '''
+                            NODE_PATH="/home/ubuntu/.nvm/versions/node/v18.20.2/bin"
+                            YARN_PATH="/home/linuxbrew/.linuxbrew/bin"
+                            export PATH="$NODE_PATH:$YARN_PATH:$PATH"
 
-                    pnpm install
-                    npm run build
+                            pnpm install
+                            npm run build
 
-                    cp ecosystem.config.cjs .next/standalone
-                    cp -r public .next/standalone
-                    mv .next/static .next/standalone
+                            cp ecosystem.config.cjs .next/standalone
+                            cp -r public .next/standalone
+                            mv .next/static .next/standalone
 
-                    cd .next/
-                    tar -zcf www.wawotv.com.tar.gz standalone
-                    cd -
-                    mv -f .next/www.wawotv.com.tar.gz www.wawotv.com.tar.gz
-                '''
+                            cd .next/
+                            tar -zcf www.wawotv.com.tar.gz standalone
+                            cd -
+                            mv -f .next/www.wawotv.com.tar.gz www.wawotv.com.tar.gz
+                        '''
+                    } catch (Exception e) {
+                        error("Build failed: ${e.message}")
+                    }
+                }
                 /* pm2 nextjs
 
                     node .next/standalone/server.js
