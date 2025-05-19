@@ -32,6 +32,7 @@
 function handler(event) {// ForceCORSHeaders
   var origin = event.request.headers.origin || { value: '' }
   var ua = event.request.headers['user-agent'] || { value: '' }
+  var sfd = event.request.headers['sec-fetch-dest'] || { value: '' }
 
   var response = event.response
   var headers = response.headers
@@ -52,16 +53,18 @@ function handler(event) {// ForceCORSHeaders
     headers['access-control-allow-methods'] = { value: 'GET, HEAD, OPTIONS' }
   }
 
-  const _origin = origin.value
-  if (_origin) {
-    if (allowedOrigins.includes(_origin)) {
-      headers['access-control-allow-origin'] = { value: _origin }
-      headers['access-control-allow-credentials'] = { value: 'true' }
-    } else {
+  if (sfd.value === 'video') {
+    const _origin = origin.value
+    if (_origin) {
+      if (allowedOrigins.includes(_origin)) {
+        headers['access-control-allow-origin'] = { value: _origin }
+        headers['access-control-allow-credentials'] = { value: 'true' }
+      } else {
+        event.response.statusCode = 403
+      }
+    } else if (!/(uni-app|ijkplayer)/.test(ua.value)) {
       event.response.statusCode = 403
     }
-  } else if (!/(uni-app|ijkplayer)/.test(ua.value)) {
-    event.response.statusCode = 403
   }
 
   // headers['x-my-response'] = { value: JSON.stringify(event.response) }
