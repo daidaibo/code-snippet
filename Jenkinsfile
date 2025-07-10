@@ -193,12 +193,17 @@ pipeline {
 
                     Nginx
                         server {
-                            listen 443 ssl http2 ;
+                            listen 80;
                             listen [::]:80;
                             
-                            listen [::]:443 ssl http2 ;
+                            listen 443 ssl http2;
+                            listen [::]:443 ssl http2;
 
                             server_name wawotv.com;
+                            
+                            ssl_certificate    /www/server/panel/vhost/cert/wawotv.com/fullchain.pem;
+                            ssl_certificate_key    /www/server/panel/vhost/cert/wawotv.com/privkey.pem;
+                            
                             return 308 https://www.wawotv.com$request_uri;
                         }
                         location /_next/ {
@@ -214,7 +219,7 @@ pipeline {
                 script {
                     if (env.isProd.toBoolean()) {
                         sshPublisher(publishers: [sshPublisherDesc(
-                            configName: 'wawovideo',
+                            configName: 'wawotv',
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,

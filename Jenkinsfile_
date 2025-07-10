@@ -128,7 +128,7 @@ EOF
                 script {
                     if (env.isProd.toBoolean()) {
                         sshPublisher(publishers: [sshPublisherDesc(
-                            configName: 'wawovideo',
+                            configName: 'wawotv',
                             transfers: [
                                 sshTransfer(
                                     cleanRemote: false,
